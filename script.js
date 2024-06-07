@@ -13,11 +13,11 @@ const gameboard = (function () {
         //l,r,u,d,ul,ur,dl,dr
 
         //base case
-        if(count === 3){
-            return(type);
+        if(count === 2){
+            return(`${type} wins`);
         }
         else if(board(xIndex, yIndex) != type){
-            return(board(xIndex, yIndex))
+            return('none')
         }
         else{
             switch(direction){
@@ -37,16 +37,34 @@ const gameboard = (function () {
                     return(traverse("dl", count+1, type, xIndex-1, yIndex-1, board));
                 case "dr":
                     return(traverse("dr", count+1, type, xIndex+1, yIndex-1, board));
-
             }   
         }
-        
-
     };
 
 
     const verifyWin = () => {
+        let win = null;
         //no loops, just checks each one.
+
+        //fix this so it checks every time you traverse
+
+        //top left square
+        traverse("d", 0, board[0][0], 0, 0, board);
+        traverse("dr", 0, board[0][0], 0, 0, board);
+        traverse("r", 0, board[0][0], 0, 0, board);
+
+        //top middle square
+        traverse("l", 0, board[0][0], 0, 0, board);
+        traverse("dl", 0, board[0][0], 0, 0, board);
+        traverse("d", 0, board[0][0], 0, 0, board);
+        traverse("dr", 0, board[0][0], 0, 0, board);
+        traverse("r", 0, board[0][0], 0, 0, board);
+
+        //top right square
+        traverse("l", 0, board[0][0], 0, 0, board);
+        traverse("dl", 0, board[0][0], 0, 0, board);
+        traverse("d", 0, board[0][0], 0, 0, board);
+
 
         
 
