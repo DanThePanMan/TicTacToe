@@ -31,9 +31,9 @@ const gameboard = (function () {
         }
 
         //check draw
-        for (let i = 0; i < array.length; i++) {
-            for (let j = 0; j < array[i].length; j++) {
-                if (array[i][j] === null) {
+        for (let i = 0; i < board.length; i++) {
+            for (let j = 0; j < board[i].length; j++) {
+                if (board[i][j] === null) {
                     return "continue"; // If any element is null, return continue   
                 }
             }
@@ -48,9 +48,6 @@ const gameboard = (function () {
 
 function gameController(gameboard, player){
     console.log(gameboard.viewBoard());
-    console.log(gameboard.viewBoard()[0][0]);
-    console.log("test")
-    console.log(gameboard.verifyWin(gameboard.viewBoard()));
 }
 
 function toggle(player){
@@ -65,8 +62,14 @@ function toggle(player){
     }
 }
 
-//main
 
+const displayController = (function () {} )();
+
+
+
+
+
+//main
 let currentPlayer = "X";
     while(gameboard.verifyWin(gameboard.viewBoard()) === 'continue'){
 
