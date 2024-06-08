@@ -6,90 +6,39 @@ const gameboard = (function () {
 
     const viewBoard = () => {return board};
 
-    const traverse = (direction, count, type, xIndex, yIndex, board) => {
-        //direction has 8 possibilities 
-        //this is recurseive
-        //l,r,u,d,ul,ur,dl,dr
-
-        //base case
-        if(count === 2){
-            return(type);
-        }
-        else if(board(xIndex, yIndex) != type){
-            return('n')
-        }
-        else{
-            switch(direction){
-                case "l":
-                    return(traverse("l", count+1, type, xIndex-1, yIndex, board));
-                case "r":
-                    return(traverse("r", count+1, type, xIndex+1, yIndex, board));
-                case "u":
-                    return(traverse("u", count+1, type, xIndex, yIndex+1, board));
-                case "d":
-                    return(traverse("d", count+1, type, xIndex, yIndex-1, board));
-                case "ul":
-                    return(traverse("ul", count+1, type, xIndex-1, yIndex+1, board));
-                case "ur":
-                    return(traverse("ur", count+1, type, xIndex+1, yIndex+1, board));
-                case "dl":
-                    return(traverse("dl", count+1, type, xIndex-1, yIndex-1, board));
-                case "dr":
-                    return(traverse("dr", count+1, type, xIndex+1, yIndex-1, board));
-            }   
-        }
-    };
-
-
     const verifyWin = (board) => {
+        
+        //check rows, then columns, then diagnoals, then check is full of non null to make sure no draw
 
-        const isFullOfNonNull = (array) => {
-            for (let i = 0; i < array.length; i++) {
-                for (let j = 0; j < array[i].length; j++) {
-                    if (array[i][j] === null) {
-                        return false; // If any element is null, return false
-                    }
+        //check rown
+        for(let row = 0; row < 3; row++){
+            if (board[row][0] !== null && board[row][0] === board[row][1] && board[row][1] === board[row][2]) {
+                return board[row][0]; // Return the marker of the winner
+            }
+        }
+        //check columns
+        for (let col = 0; col < 3; col++) {
+            if (board[0][col] !== null && board[0][col] === board[1][col] && board[1][col] === board[2][col]) {
+                return board[0][col]; // Return the marker of the winner
+            }
+        }
+        // Check diagonals
+        if (board[0][0] !== null && board[0][0] === board[1][1] && board[1][1] === board[2][2]) {
+            return board[0][0]; // Return the marker of the winner
+        }
+        if (board[0][2] !== null && board[0][2] === board[1][1] && board[1][1] === board[2][0]) {
+            return board[0][2]; // Return the marker of the winner
+        }
+
+        //check draw
+        for (let i = 0; i < array.length; i++) {
+            for (let j = 0; j < array[i].length; j++) {
+                if (array[i][j] === null) {
+                    return "continue"; // If any element is null, return continue   
                 }
             }
-            return true; // If all elements are non-null, return true
-        };
-        
-        //fix this so it checks every time you traverse
-        const tempResults = []
-
-        //top left
-        tempResults.push(traverse("d", 0, board[0][0], 0, 0, board));
-        tempResults.push(traverse("dr", 0, board[0][0], 0, 0, board));
-        tempResults.push(traverse("r", 0, board[0][0], 0, 0, board));
-        //top middle
-        tempResults.push(traverse("l", 0, board[0][0], 0, 0, board));
-        tempResults.push(traverse("dl", 0, board[0][0], 0, 0, board));
-        tempResults.push(traverse("d", 0, board[0][0], 0, 0, board));
-        tempResults.push(traverse("dr", 0, board[0][0], 0, 0, board));
-        tempResults.push(traverse("r", 0, board[0][0], 0, 0, board));
-        //top right
-        tempResults.push(traverse("l", 0, board[0][0], 0, 0, board));
-        tempResults.push(traverse("dl", 0, board[0][0], 0, 0, board));
-        tempResults.push(traverse("d", 0, board[0][0], 0, 0, board));
-
-
-
-
-
-
-
-        if(tempResults.contain('X')){
-            return 'X'
         }
-        else if(tempResults.contain('O')){
-            return 'O'
-        }
-        else if(isFullOfNonNull(board)){
-            return 'draw'
-        }
-        else{
-            return 'continue'
-        }
+        return "draw"; // If all elements are non-null, return draw
 
         
     };
@@ -98,8 +47,10 @@ const gameboard = (function () {
 
 
 function gameController(gameboard, player){
-    console.log(gameboard);
-    console.log(gameboard.verifyWin());
+    console.log(gameboard.viewBoard());
+    console.log(gameboard.viewBoard()[0][0]);
+    console.log("test")
+    console.log(gameboard.verifyWin(gameboard.viewBoard()));
 }
 
 function toggle(player){
@@ -117,8 +68,8 @@ function toggle(player){
 //main
 
 let currentPlayer = "X";
-while(gameboard.verifyWin() === 'continue'){
+    while(gameboard.verifyWin(gameboard.viewBoard()) === 'continue'){
 
 }
 
-gameController(gameboard.viewBoard());
+gameController(gameboard);
