@@ -1,11 +1,10 @@
 const gameboard = (function () {
-    const board = [[],[],[]];
+    const board = [[null, null, null],[null, null, null],[null, null, null]];
     const circle = (x,y) => {board[x][y] = 'O'};
     const cross = (x,y) => {board[x][y] = 'X'};
-    const viewBoard = () => {return board};
+    const reset = () => {this.board = [[null, null, null],[null, null, null],[null, null, null]];}
 
-    //use methods in verifyTool to traverse the board
-    const verifyTool = checkBoard(board);
+    const viewBoard = () => {return board};
 
     const traverse = (direction, count, type, xIndex, yIndex, board) => {
         //direction has 8 possibilities 
@@ -14,10 +13,10 @@ const gameboard = (function () {
 
         //base case
         if(count === 2){
-            return(`${type} wins`);
+            return(type);
         }
         else if(board(xIndex, yIndex) != type){
-            return('none')
+            return('n')
         }
         else{
             switch(direction){
@@ -42,37 +41,84 @@ const gameboard = (function () {
     };
 
 
-    const verifyWin = () => {
-        let win = null;
-        //no loops, just checks each one.
+    const verifyWin = (board) => {
 
+        const isFullOfNonNull = (array) => {
+            for (let i = 0; i < array.length; i++) {
+                for (let j = 0; j < array[i].length; j++) {
+                    if (array[i][j] === null) {
+                        return false; // If any element is null, return false
+                    }
+                }
+            }
+            return true; // If all elements are non-null, return true
+        };
+        
         //fix this so it checks every time you traverse
+        const tempResults = []
 
-        //top left square
-        traverse("d", 0, board[0][0], 0, 0, board);
-        traverse("dr", 0, board[0][0], 0, 0, board);
-        traverse("r", 0, board[0][0], 0, 0, board);
+        //top left
+        tempResults.push(traverse("d", 0, board[0][0], 0, 0, board));
+        tempResults.push(traverse("dr", 0, board[0][0], 0, 0, board));
+        tempResults.push(traverse("r", 0, board[0][0], 0, 0, board));
+        //top middle
+        tempResults.push(traverse("l", 0, board[0][0], 0, 0, board));
+        tempResults.push(traverse("dl", 0, board[0][0], 0, 0, board));
+        tempResults.push(traverse("d", 0, board[0][0], 0, 0, board));
+        tempResults.push(traverse("dr", 0, board[0][0], 0, 0, board));
+        tempResults.push(traverse("r", 0, board[0][0], 0, 0, board));
+        //top right
+        tempResults.push(traverse("l", 0, board[0][0], 0, 0, board));
+        tempResults.push(traverse("dl", 0, board[0][0], 0, 0, board));
+        tempResults.push(traverse("d", 0, board[0][0], 0, 0, board));
 
-        //top middle square
-        traverse("l", 0, board[0][0], 0, 0, board);
-        traverse("dl", 0, board[0][0], 0, 0, board);
-        traverse("d", 0, board[0][0], 0, 0, board);
-        traverse("dr", 0, board[0][0], 0, 0, board);
-        traverse("r", 0, board[0][0], 0, 0, board);
 
-        //top right square
-        traverse("l", 0, board[0][0], 0, 0, board);
-        traverse("dl", 0, board[0][0], 0, 0, board);
-        traverse("d", 0, board[0][0], 0, 0, board);
 
+
+
+
+
+        if(tempResults.contain('X')){
+            return 'X'
+        }
+        else if(tempResults.contain('O')){
+            return 'O'
+        }
+        else if(isFullOfNonNull(board)){
+            return 'draw'
+        }
+        else{
+            return 'continue'
+        }
 
         
-
     };
-    return({ circle, cross, viewBoard, verifyWin })
+    return({ circle, cross, viewBoard, verifyWin, reset })
 })();
 
 
-function createPlayer(){
+function gameController(gameboard, player){
+    console.log(gameboard);
+    console.log(gameboard.verifyWin());
+}
+
+function toggle(player){
+    if(player === "X"){
+        return("O");
+    }
+    else if(player === "O"){
+        return("X");
+    }
+    else{
+        throw new Error("invalid player value to toggle")
+    }
+}
+
+//main
+
+let currentPlayer = "X";
+while(gameboard.verifyWin() === 'continue'){
 
 }
+
+gameController(gameboard.viewBoard());
