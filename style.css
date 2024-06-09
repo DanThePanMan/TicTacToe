@@ -5,8 +5,45 @@
     --tieColour: #EDEBD7;
 }
 
+body{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    background-color: var(--bgColour);
+}
 
+.mainContainer{
+    flex-direction: column;
+    margin-top: 4vh;
+    width: 60vw;
+    height: 70vh;    
+}
 
+.nav{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.resetButton{
+    background-color: var(--tieColour);
+    transition: 100ms ease-in-out;
+    width: 4rem;
+    height: 4rem;
+    border: none;
+    border-radius: 1rem;
+}
+
+.resetButton:hover{
+    background-color: #87867c;
+    transition: 100ms ease-in-out;
+
+}
+
+.resetButtonLogo{
+    height: 4rem;
+}
 
 /* css reset */
 
