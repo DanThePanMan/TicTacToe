@@ -1,5 +1,5 @@
 :root {
-    --bgColour: #0B132B;
+    --bgColour: #121C40;
     --lossColour: #D64933;
     --winColour:#567568;
     --tieColour: #EDEBD7;
@@ -13,13 +13,17 @@ body{
 }
 
 .mainContainer{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     flex-direction: column;
     margin-top: 4vh;
-    width: 60vw;
+    width: 80vw;
     height: 70vh;    
 }
 
-.nav{
+.mainContainer .nav{
+    width: 80vw;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -43,6 +47,19 @@ body{
 
 .resetButtonLogo{
     height: 4rem;
+}
+
+.board{
+    height: 24rem;
+    width: 24rem;
+    background-color: var(--tieColour);
+    border-radius: 24px;
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+}
+
+.horizontalLine{
+    width: 20rem;
+    height: 12px;
 }
 
 /* css reset */
