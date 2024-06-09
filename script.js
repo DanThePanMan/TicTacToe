@@ -63,15 +63,34 @@ function toggle(player){
 }
 
 
-const displayController = (function () {} )();
 
 
+function putSymbol(array, symbol, row, col){
+    if(array[row][col] != null){
+        return false;
+    }
+    else{
+        array[row][col] = symbol;
+        return true;
+    }
+}
+
+const displayController = (function () {
+    const board = document.getElementById("board")
+
+    
+    //add X or O
+
+    //reset
+
+    //winHandler
 
 
+} )();
 
 //main
 let currentPlayer = "X";
-    while(gameboard.verifyWin(gameboard.viewBoard()) === 'continue'){
+while(gameboard.verifyWin(gameboard.viewBoard()) === 'continue'){
 
 }
 
