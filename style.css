@@ -53,14 +53,74 @@ body{
     height: 24rem;
     width: 24rem;
     background-color: var(--tieColour);
-    border-radius: 24px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-radius: 12px;
     box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
 }
 
-.horizontalLine{
-    width: 20rem;
-    height: 12px;
+.gridItem{
+  display: grid;
+  justify-self: center;
+  align-self: center;
+  background-color: var(--tieColour);
+  border-radius: 6px;
+  width: 6.5rem;
+  height: 6.5rem;
+  transition: 100ms ease-in-out;
 }
+
+.gridItem:hover{
+  background-color: #cfccb4;
+  transition: 100ms ease-in-out;
+}
+
+.inGridItem{
+  justify-self: center;
+  align-self: center;
+  width: 3.5rem;
+}
+
+
+.hl1{
+  position: absolute;
+  translate: 2.5% 7.6rem ;
+  width: 23rem;
+  height: 12px;
+  background-color: #121C40;
+  border-radius: 6px;
+}
+
+
+.hl2{
+  position: absolute;
+  translate: 2.5% 15.6rem ;
+  width: 23rem;
+  height: 12px;
+  background-color: #121C40;
+  border-radius: 6px;
+}
+
+.vl1{
+  position: absolute;
+  translate: 7.6rem 2%;
+  width: 12px;
+  height: 23rem;
+  background-color: #121C40;
+  border-radius: 6px;
+}
+
+
+.vl2{
+  position: absolute;
+  translate:15.6rem 2%;
+  width: 12px;
+  height: 23rem;
+  background-color: #121C40;
+  border-radius: 6px;
+}
+
+
 
 /* css reset */
 

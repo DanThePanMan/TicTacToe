@@ -1,5 +1,5 @@
 const gameboard = (function () {
-    const board = [
+    let board = [
         [null, null, null],
         [null, null, null],
         [null, null, null],
@@ -11,7 +11,7 @@ const gameboard = (function () {
         board[x][y] = "X";
     };
     const reset = () => {
-        this.board = [
+        board = [
             [null, null, null],
             [null, null, null],
             [null, null, null],
@@ -21,6 +21,10 @@ const gameboard = (function () {
     const viewBoard = () => {
         return board;
     };
+
+    const editBoard = (changedBoard) => {
+        board = changedBoard;
+    }
 
     const verifyWin = (board) => {
         //check rows, then columns, then diagnoals, then check is full of non null to make sure no draw
@@ -71,7 +75,7 @@ const gameboard = (function () {
         }
         return "draw"; // If all elements are non-null, return draw
     };
-    return { circle, cross, viewBoard, verifyWin, reset };
+    return { circle, cross, viewBoard, editBoard, verifyWin, reset };
 })();
 
 function gameController(gameboard, player) {
@@ -98,24 +102,68 @@ function putSymbol(array, symbol, row, col) {
 }
 
 const displayController = (function () {
+    const gridItemList = document.querySelectorAll(".gridItem");
 
-    const board = document.getElementById("board");
+    //create 2d array of DOM elements
+    
+
+    // laying things on the board
+
+    const update = () => {
+        for(let i = 0; i < 9; i++){
+            gridItemList[i].innerHTML = ""
+        }
+        const DomBoard = [
+            [gridItemList[0], gridItemList[1], gridItemList[2]],
+            [gridItemList[3], gridItemList[4], gridItemList[5]],
+            [gridItemList[6], gridItemList[7], gridItemList[8]],
+        ];
+        const board = gameboard.viewBoard();
+        for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+                if (board[i][j] === "X") {
+                    const X = document.createElement("img");
+                    X.setAttribute("src", "./assets/X.png");
+                    X.classList.add("inGridItem");
+                    DomBoard[i][j].appendChild(X);
+                } else if (board[i][j] === "O") {
+                    const O = document.createElement("img");
+                    O.setAttribute("src", "./assets/O.png");
+                    O.classList.add("inGridItem");
+                    DomBoard[i][j].appendChild(O);
+                }
+            }
+        }
+    };
 
     const resetBoard = () => {
-        gameboard.reset;
+        gameboard.reset();
+        update();
+    };
 
+    
 
-    }
+    const test = () => {
+        gameboard.editBoard([
+            [null, null, null],
+            [null, "X", null],
+            [null, null, null],
+        ]);
+        console.log(gameboard.viewBoard())
+        update();
 
-    const updateBoard = 
+        resetBoard()
+    };
+
     //add X or O
 
-
     //winHandler
+
+    return { test, resetBoard };
 })();
 
 //main
-let currentPlayer = "X";
-while (gameboard.verifyWin(gameboard.viewBoard()) === "continue") {}
-
-gameController(gameboard);
+// let currentPlayer = "X";
+// while (gameboard.verifyWin(gameboard.viewBoard()) === "continue") {}
+// gameController(gameboard);
+displayController.test();
