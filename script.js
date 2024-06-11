@@ -24,7 +24,7 @@ const gameboard = (function () {
 
     const editBoard = (changedBoard) => {
         board = changedBoard;
-    }
+    };
 
     const verifyWin = (board) => {
         //check rows, then columns, then diagnoals, then check is full of non null to make sure no draw
@@ -78,10 +78,6 @@ const gameboard = (function () {
     return { circle, cross, viewBoard, editBoard, verifyWin, reset };
 })();
 
-function gameController(gameboard, player) {
-    console.log(gameboard.viewBoard());
-}
-
 function toggle(player) {
     if (player === "X") {
         return "O";
@@ -105,13 +101,12 @@ const displayController = (function () {
     const gridItemList = document.querySelectorAll(".gridItem");
 
     //create 2d array of DOM elements
-    
 
     // laying things on the board
 
     const update = () => {
-        for(let i = 0; i < 9; i++){
-            gridItemList[i].innerHTML = ""
+        for (let i = 0; i < 9; i++) {
+            gridItemList[i].innerHTML = "";
         }
         const DomBoard = [
             [gridItemList[0], gridItemList[1], gridItemList[2]],
@@ -141,29 +136,71 @@ const displayController = (function () {
         update();
     };
 
-    
+    const changeTurnIndicator = (symbol) => {
+        const logoContainer = document.querySelector(".logoContainer");
+        logoContainer.innerHTML = ""
+        if(symbol === "X"){
+            const X = document.createElement("img");
+            X.setAttribute("src", "./assets/X.png");
+            X.classList.add("inContainerItem");
+            logoContainer.appendChild(X)
+        }
+        else{
+            const O = document.createElement("img");
+            O.setAttribute("src", "./assets/O.png");
+            O.classList.add("inContainerItem");
+            logoContainer.appendChild(O)
+        }
+    }
 
-    const test = () => {
-        gameboard.editBoard([
-            [null, null, null],
-            [null, "X", null],
-            [null, null, null],
-        ]);
-        console.log(gameboard.viewBoard())
-        update();
+    const displayWinMessage = () => {
+        console.log(gameboard.verifyWin(gameboard.viewBoard()))
+    }
 
-        resetBoard()
+    const listen = (currentSymbol) => {
+        const DomBoard = [
+            [gridItemList[0], gridItemList[1], gridItemList[2]],
+            [gridItemList[3], gridItemList[4], gridItemList[5]],
+            [gridItemList[6], gridItemList[7], gridItemList[8]],
+        ];
+        for (let row = 0; row < 3; row++) {
+            for (let col = 0; col < 3; col++) {
+            
+                DomBoard[row][col].addEventListener("click", () => {
+                    if(addSymbol(row, col, currentSymbol)){
+                        currentSymbol = toggle(currentSymbol);
+                    };
+                    displayWinMessage();
+                });
+            
+                
+            }
+        }
     };
 
     //add X or O
+    const addSymbol = (row, col, symbol) => {
+        const tempBoard = gameboard.viewBoard();
+        if(tempBoard[row][col] === null){
+            tempBoard[row][col] = symbol;
+            gameboard.editBoard(tempBoard);
+            changeTurnIndicator(symbol);
+            update();
+            return true
+        }
+        return false
+    };
 
     //winHandler
+    const winHandler = () => {
+        if (gameboard.verifyWin(gameboard.viewBoard()) != "continue") {
+        }
+    };
 
-    return { test, resetBoard };
+    return {resetBoard, listen, winHandler };
 })();
 
-//main
-// let currentPlayer = "X";
-// while (gameboard.verifyWin(gameboard.viewBoard()) === "continue") {}
-// gameController(gameboard);
-displayController.test();
+
+
+
+displayController.listen("X");

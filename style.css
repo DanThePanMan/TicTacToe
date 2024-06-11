@@ -81,6 +81,26 @@ body{
   width: 3.5rem;
 }
 
+.inContainerItem{
+  justify-self: center;
+  align-self: center;
+  width: 3.5rem;
+}
+
+.turnIndicator{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px;
+  width: 24rem;
+  height: 6rem;
+  border: 2px solid var(--tieColour);
+  border-radius: 12px;
+  background-color: (var(--bgColour));
+  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1); 
+}
+
 
 .hl1{
   position: absolute;
