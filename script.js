@@ -103,7 +103,7 @@ const displayController = (function () {
 
     const resetBoard = () => {
         gameboard.reset;
-        
+
 
     }
 
