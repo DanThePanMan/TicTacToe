@@ -1,0 +1,3 @@
+reset button
+score button
+verify win works but we need the modal to show up

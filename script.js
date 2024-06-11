@@ -170,7 +170,7 @@ const displayController = (function () {
                     if(addSymbol(row, col, currentSymbol)){
                         currentSymbol = toggle(currentSymbol);
                     };
-                    displayWinMessage();
+                    displayWinMessage();//this is temporary
                 });
             
                 
@@ -186,6 +186,9 @@ const displayController = (function () {
             gameboard.editBoard(tempBoard);
             changeTurnIndicator(symbol);
             update();
+
+            //check win here 
+
             return true
         }
         return false

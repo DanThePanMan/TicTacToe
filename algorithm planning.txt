@@ -1,8 +1,0 @@
-for everys single tile:
-    you record the driection of the one next to it and see if its the same
-        if its the same you keep going that driection
-    
-    and if none reports true then:
-        check if board is full"
-            if full return draw
-        else keep the game going
