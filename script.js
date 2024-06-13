@@ -138,26 +138,29 @@ const displayController = (function () {
 
     const changeTurnIndicator = (symbol) => {
         const logoContainer = document.querySelector(".logoContainer");
-        logoContainer.innerHTML = ""
-        if(symbol === "X"){
+        logoContainer.innerHTML = "";
+        
+        if (symbol === "X") {
             const X = document.createElement("img");
             X.setAttribute("src", "./assets/X.png");
             X.classList.add("inContainerItem");
-            logoContainer.appendChild(X)
-        }
-        else{
+            logoContainer.appendChild(X);
+        } else {
             const O = document.createElement("img");
             O.setAttribute("src", "./assets/O.png");
             O.classList.add("inContainerItem");
-            logoContainer.appendChild(O)
+            logoContainer.appendChild(O);
         }
-    }
-
-    const displayWinMessage = () => {
-        console.log(gameboard.verifyWin(gameboard.viewBoard()))
-    }
+    };
 
     const listen = (currentSymbol) => {
+        changeTurnIndicator(currentSymbol);
+
+        const resetButton = document.querySelector(".resetButton");
+        resetButton.addEventListener("click", () => {
+            resetBoard();
+        });
+
         const DomBoard = [
             [gridItemList[0], gridItemList[1], gridItemList[2]],
             [gridItemList[3], gridItemList[4], gridItemList[5]],
@@ -165,15 +168,13 @@ const displayController = (function () {
         ];
         for (let row = 0; row < 3; row++) {
             for (let col = 0; col < 3; col++) {
-            
                 DomBoard[row][col].addEventListener("click", () => {
-                    if(addSymbol(row, col, currentSymbol)){
+                    if (addSymbol(row, col, currentSymbol)) {
                         currentSymbol = toggle(currentSymbol);
-                    };
-                    displayWinMessage();//this is temporary
+                        changeTurnIndicator(currentSymbol);
+                    }
+                    winHandler(); //this is temporary
                 });
-            
-                
             }
         }
     };
@@ -181,29 +182,60 @@ const displayController = (function () {
     //add X or O
     const addSymbol = (row, col, symbol) => {
         const tempBoard = gameboard.viewBoard();
-        if(tempBoard[row][col] === null){
+        if (tempBoard[row][col] === null) {
             tempBoard[row][col] = symbol;
             gameboard.editBoard(tempBoard);
-            changeTurnIndicator(symbol);
+
             update();
 
-            //check win here 
-
-            return true
+            return true;
         }
-        return false
+        return false;
     };
 
     //winHandler
     const winHandler = () => {
         if (gameboard.verifyWin(gameboard.viewBoard()) != "continue") {
+            const body = document.querySelector("body");
+            const modal = document.createElement("div");
+            const bg = document.createElement("div");
+            
+
+            modal.classList.add("modal");
+
+            bg.classList.add("modalBG");
+            body.appendChild(bg);
+
+            if (gameboard.verifyWin(gameboard.viewBoard()) === "X") {
+                const X = document.createElement("img");
+                X.setAttribute("src", "./assets/X.png");
+                X.classList.add("inGridItem");
+                modal.appendChild(X);
+                bg.appendChild(modal);
+            } else if (gameboard.verifyWin(gameboard.viewBoard()) === "O") {
+                const O = document.createElement("img");
+                O.setAttribute("src", "./assets/O.png");
+                O.classList.add("inGridItem");
+                modal.appendChild(O);
+                bg.appendChild(modal);
+            }
+
+            const text = document.createElement("p");
+            text.textContent = "Is the Winnter!";
+            text.classList.add("insideText");
+
+            modal.appendChild(text);
+
+
+            bg.addEventListener("click", () => {
+                bg.classList.remove("modalBG");
+                bg.innerHTML = ""
+                resetBoard();
+            });
         }
     };
 
-    return {resetBoard, listen, winHandler };
+    return { resetBoard, listen, winHandler };
 })();
-
-
-
 
 displayController.listen("X");
